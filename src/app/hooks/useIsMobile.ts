@@ -1,5 +1,5 @@
 'use client';
-
+// react
 import { useEffect, useState } from 'react';
 
 export default function useIsMobile(maxWidth: number): boolean {
