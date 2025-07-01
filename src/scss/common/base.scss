@@ -46,16 +46,6 @@ fieldset {
   border: 0;
 }
 
-input,
-button,
-a,
-textarea {
-  &:focus-visible {
-    outline: 2px solid v.$black;
-    outline-offset: 2px;
-  }
-}
-
 a {
   text-decoration: none;
   cursor:  pointer;

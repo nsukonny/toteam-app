@@ -7,6 +7,7 @@
   font-family: v.$ff-os;
 }
 
+// === lg ===
 %pLg {
   @extend %pBase;
   font-size: 20px;
@@ -23,12 +24,26 @@
   }
 }
 
-%pBaseSize {
+// === base ===
+%pBaseLight {
+  @extend %pBase;
+  font-size: 16px;
+  line-height: 150%;
+}
+
+%pBaseRegular {
+  @extend %pBase;
+  font-size: 16px;
+  line-height: 150%;
+}
+
+%pBaseHeavy {
   @extend %pBase;
   font-size: 14px;
   line-height: 142%;
 }
 
+// === xs ===
 %pXs {
   @extend %pBase;
   font-size: 11px;
@@ -41,6 +56,7 @@
   line-height: 160%;
 }
 
+// === tiny ===
 %pTiny {
   @extend %pBase;
   font-size: 9px;
@@ -50,23 +66,39 @@
 // === MAIN MIXIN === //
 // @include paragraph('lg', 'heavy')
 @mixin paragraph($size, $weight) {
+  // === size logic ===
   @if $size == 'lg' {
     @extend %pLg;
+
   } @else if $size == 'base' {
-    @extend %pBaseSize;
+    @if $weight == 'light' {
+      @extend %pBaseLight;
+    } @else if $weight == 'regular' {
+      @extend %pBaseRegular;
+    } @else if $weight == 'heavy' {
+      @extend %pBaseHeavy;
+    } @else {
+      @extend %pBaseRegular;
+    }
+
   } @else if $size == 'xs' {
     @if $weight == 'regular' {
       @extend %pXsAlt;
     } @else {
       @extend %pXs;
     }
+
   } @else if $size == 'tiny' {
     @extend %pTiny;
+
   } @else {
     @warn "Unknown paragraph size: #{$size}.";
   }
 
-  @if $weight == 'light' {
+  // === weight logic ===
+  @if $size == 'base' and $weight == 'heavy' {
+    font-weight: v.$fw-medium;
+  } @else if $weight == 'light' {
     font-weight: v.$fw-thin;
   } @else if $weight == 'regular' {
     font-weight: v.$fw-regular;

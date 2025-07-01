@@ -1,0 +1,31 @@
+@use '../../vars/vars' as v;
+@use '../../mixins/typography/paragraph' as p;
+
+//label input
+@mixin labelInput() {
+  position: relative;
+
+  input {
+    width: 100%;
+    border: 1px solid v.$neutral5;
+    border-radius: v.$br8;
+    padding: 12px 16px;
+    background-color: v.$white;
+    @include p.paragraph('base', 'regular');
+
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 1000px v.$neutral9 inset !important;
+      -webkit-text-fill-color: v.$black !important;
+    }
+  }
+
+  span {
+    position: absolute;
+    left: 16px;
+    bottom: calc(100% - 6px);
+    padding: 0 4px;
+    border-radius: v.$br8;
+    background-color: v.$white;
+    @include p.paragraph('xs', 'heavy')
+  }
+}
