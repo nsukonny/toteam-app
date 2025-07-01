@@ -1,0 +1,7 @@
+@use '../../../../scss/vars/vars.scss' as v;
+
+.sections {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
