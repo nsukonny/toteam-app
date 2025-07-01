@@ -1,0 +1,113 @@
+@use '../../vars/vars' as v;
+
+// === BASE PLACEHOLDERS === //
+%heading1 {
+  color: v.$black;
+  font-family: v.$ff-ss;
+  font-size: 32px;
+  line-height: 112%;
+
+  @media (min-width: v.$ms) {
+    font-size: 38px;
+    line-height: 115%;
+  }
+
+  @media (min-width: v.$xl) {
+    font-size: 48px;
+    line-height: 108%;
+  }
+}
+
+%heading2 {
+  color: v.$black;
+  font-family: v.$ff-ss;
+  font-size: 29px;
+  line-height: 110%;
+
+  @media (min-width: v.$ms) {
+    font-size: 33px;
+  }
+
+  @media (min-width: v.$xl) {
+    font-size: 40px;
+  }
+}
+
+%heading3 {
+  color: v.$black;
+  font-family: v.$ff-ss;
+  font-size: 26px;
+  line-height: 123%;
+
+  @media (min-width: v.$ms) {
+    font-size: 28px;
+    line-height: 114%;
+  }
+
+  @media (min-width: v.$xl) {
+    font-size: 33px;
+    line-height: 110%;
+  }
+}
+
+%heading4 {
+  color: v.$black;
+  font-family: v.$ff-ss;
+  font-size: 23px;
+  line-height: 104%;
+
+  @media (min-width: v.$ms) {
+    font-size: 24px;
+    line-height: 116%;
+  }
+
+  @media (min-width: v.$xl) {
+    font-size: 28px;
+    line-height: 114%;
+  }
+}
+
+%heading5 {
+  color: v.$black;
+  font-family: v.$ff-os;
+  font-size: 20px;
+  line-height: 120%;
+
+  @media (min-width: v.$ms) {
+    font-size: 21px;
+    line-height: 114%;
+  }
+
+  @media (min-width: v.$xl) {
+    font-size: 23px;
+    line-height: 104%;
+  }
+}
+
+%heading6 {
+  color: v.$black;
+  font-family: v.$ff-os;
+  font-size: 18px;
+  line-height: 111%;
+
+  @media (min-width: v.$xl) {
+    font-size: 19px;
+    line-height: 105%;
+  }
+}
+
+// === HEADING MIXIN === //
+// @include heading(1, 'regular')
+@mixin heading($level, $weight) {
+  @extend %heading#{$level};
+
+  @if $weight == 'light' {
+    font-weight: v.$fw-thin;
+  } @else if $weight == 'regular' {
+    font-weight: v.$fw-regular;
+  } @else if $weight == 'heavy' {
+    font-weight: v.$fw-semibold;
+  } @else {
+    @warn "Unknown weight: #{$weight}. Expected: 'light', 'regular', or 'heavy'.";
+  }
+}

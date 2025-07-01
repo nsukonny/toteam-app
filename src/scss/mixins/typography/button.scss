@@ -1,0 +1,27 @@
+@use '../../vars/vars' as v;
+
+// === PLACEHOLDER BASE === //
+%buttonBase {
+  color: v.$black;
+  font-family: v.$ff-os;
+  font-weight: v.$fw-medium;
+}
+
+// === MAIN MIXIN === //
+// @include button('small' | 'medium' | 'large')
+@mixin button($size) {
+  @extend %buttonBase;
+
+  @if $size == 'small' {
+    font-size: 14px;
+    line-height: 142%;
+  } @else if $size == 'medium' {
+    font-size: 16px;
+    line-height: 150%;
+  } @else if $size == 'large' {
+    font-size: 18px;
+    line-height: 155%;
+  } @else {
+    @warn "Unknown button size: #{$size}";
+  }
+}

@@ -1,0 +1,62 @@
+@use '../../vars/vars' as v;
+
+// === BASE PLACEHOLDERS === //
+
+%displaySm {
+  color: v.$black;
+  font-family: v.$ff-ss;
+  font-size: 36px;
+  line-height: 111%;
+  font-style: normal;
+
+  @media (min-width: v.$ms) {
+    font-size: 44px;
+    line-height: 110%;
+  }
+
+  @media (min-width: v.$xl) {
+    font-size: 57px;
+    line-height: 112%;
+  }
+}
+
+%displayLg {
+  color: v.$black;
+  font-family: v.$ff-ss;
+  font-size: 41px;
+  line-height: 117%;
+
+  @media (min-width: v.$ms) {
+    font-size: 51px;
+    line-height: 110%;
+  }
+
+  @media (min-width: v.$xl) {
+    font-size: 69px;
+    line-height: 110%;
+  }
+}
+
+// === DISPLAY MIXIN === //
+// @include display('sm', 'regular')
+@mixin display($size, $weight) {
+  @extend %display#{$size};
+
+  @if $size == 'lg' and $weight == 'heavy' {
+    font-family: v.$ff-m;
+
+    @media (min-width: v.$xl) {
+      font-weight: v.$fw-bold;
+    }
+  }
+
+  @if $weight == 'light' {
+    font-weight: v.$fw-thin;
+  } @else if $weight == 'regular' {
+    font-weight: v.$fw-regular;
+  } @else if $weight == 'heavy' {
+    font-weight: v.$fw-semibold;
+  } @else {
+    @warn "Unknown weight: #{$weight}. Expected: 'light', 'regular', or 'heavy'.";
+  }
+}

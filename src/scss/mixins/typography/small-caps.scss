@@ -1,0 +1,29 @@
+@use '../../vars/vars' as v;
+
+// === PLACEHOLDER BASE === //
+
+%smallCapsBase {
+  color: v.$black;
+  font-family: v.$ff-ss;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 142%;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+// === MAIN MIXIN === //
+// @include smallCaps('light')
+@mixin smallCaps($weight) {
+  @extend %smallCapsBase;
+
+  @if $weight == 'light' {
+    font-weight: v.$fw-thin;
+  } @else if $weight == 'regular' {
+    font-weight: v.$fw-regular;
+  } @else if $weight == 'heavy' {
+    font-weight: v.$fw-semibold;
+  } @else {
+    @warn "Unknown weight: #{$weight}";
+  }
+}

@@ -1,0 +1,27 @@
+@use '../../vars/vars' as v;
+
+// === BASE PLACEHOLDER === //
+%linkBase {
+  color: v.$black;
+  font-family: v.$ff-os;
+  font-weight: v.$fw-semibold;
+}
+
+// === MIXIN === //
+// @include link('small' | 'medium' | 'large')
+@mixin link($size) {
+  @extend %linkBase;
+
+  @if $size == 'small' {
+    font-size: 14px;
+    line-height: 142%;
+  } @else if $size == 'medium' {
+    font-size: 16px;
+    line-height: 150%;
+  } @else if $size == 'large' {
+    font-size: 20px;
+    line-height: 140%;
+  } @else {
+    @warn "Unknown link size: #{$size}";
+  }
+}
