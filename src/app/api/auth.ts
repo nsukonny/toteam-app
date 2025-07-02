@@ -13,9 +13,10 @@ export type LoginDto = {
 };
 
 export type AuthResponse = {
-  access_token: string;
-  expires_in: number;
+  access_token?: string;
+  expires_in?: number;
   user_id: number;
+  message?: string;
 };
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4500/api/v1';
@@ -27,8 +28,9 @@ export async function register(data: RegisterDto): Promise<AuthResponse> {
     credentials: 'include',
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error((await res.json()).error || 'Registration failed');
-  return res.json();
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || 'Ошибка регистрации');
+  return json;
 }
 
 export async function login(data: LoginDto): Promise<AuthResponse> {
@@ -38,8 +40,9 @@ export async function login(data: LoginDto): Promise<AuthResponse> {
     credentials: 'include',
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error((await res.json()).error || 'Login failed');
-  return res.json();
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || 'Ошибка входа');
+  return json;
 }
 
 export async function refresh(): Promise<{ access_token: string }> {

@@ -25,19 +25,24 @@ const RegisterClient = () => {
 	const [password, setPassword] = useState('');
 	const [passwordConfirm, setPasswordConfirm] = useState('');
 	const [agree, setAgree] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 	const toast = useToast();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		setLoading(true);
 		try {
-			await register({ full_name: fullName, email, username, password, password_confirm: passwordConfirm, agree });
+			const res = await register({ full_name: fullName, email, username, password, password_confirm: passwordConfirm, agree });
+			toast.success(res?.message || 'Вы зарегистрировались!');
 			router.push('/');
 		} catch (err) {
 			let msg = 'Ошибка регистрации';
 			if (typeof err === 'string') msg = err;
 			else if (err && typeof err === 'object' && 'message' in err && typeof err.message === 'string') msg = err.message;
 			toast.error(msg);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -93,7 +98,7 @@ const RegisterClient = () => {
 										<span>Я подтверждаю, что ознакомился с Условиями использования и Политикой конфиденциальности</span>
 									</label>
 								</fieldset>
-								<Button type="submit" text="Зарегистрироваться" color="black" size="medium" fullWidth/>
+								<Button type="submit" text="Зарегистрироваться" color="black" size="medium" fullWidth disabled={loading}/>
 								<div className={styles.separator}><span>или</span></div>
 								<div className={styles.authButtons}>
 									<button className={styles.authButton} type="button">

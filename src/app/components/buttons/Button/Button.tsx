@@ -12,17 +12,18 @@ interface ButtonProps {
 	fullWidthMob?: boolean;
 	type: "button" | "submit" | "reset";
 	onClick?: () => void;
+	disabled?: boolean;
 }
 
 const Button = ({
-									size, color, text, imagePath, fullWidthMob, fullWidth, type="button", onClick
+									size, color, text, imagePath, fullWidthMob, fullWidth, type="button", onClick, disabled
 }: ButtonProps) => {
 	return (
 		<button className={
 			`${styles.button} ${styles[size]} ${styles[color]} 
 			 ${fullWidthMob && styles.fullWidthMob} 
-			 ${fullWidth && styles.fullWidth} ${imagePath}`
-		} type={type} onClick={onClick}>
+			 ${fullWidth && styles.fullWidth} ${imagePath} ${disabled && styles.disabled}`
+		} type={type} onClick={onClick} disabled={disabled}>
 			{imagePath && <Image src={imagePath} alt={text}/>}
 			<span>{text}</span>
 		</button>

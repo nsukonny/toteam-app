@@ -21,17 +21,22 @@ const LoginClient = () => {
 	const [password, setPassword] = useState('');
 	const router = useRouter();
 	const toast = useToast();
+	const [loading, setLoading] = useState(false);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		setLoading(true);
 		try {
-			await login({ login: loginValue, password });
+			const res = await login({ login: loginValue, password });
+			toast.success(res?.message || 'Вы вошли в систему');
 			router.push('/');
 		} catch (err) {
 			let msg = 'Ошибка входа';
 			if (typeof err === 'string') msg = err;
 			else if (err && typeof err === 'object' && 'message' in err && typeof err.message === 'string') msg = err.message;
 			toast.error(msg);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -70,7 +75,7 @@ const LoginClient = () => {
 										<input type="password" id="pass" value={password} onChange={e => setPassword(e.target.value)} required />
 									</label>
 								</fieldset>
-								<Button type="submit" text="Войти" color="black" size="medium" fullWidth/>
+								<Button type="submit" text="Войти" color="black" size="medium" fullWidth disabled={loading}/>
 								<div className={styles.separator}><span>или</span></div>
 								<div className={styles.authButtons}>
 									<button className={styles.authButton} type="button">
