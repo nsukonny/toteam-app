@@ -9,7 +9,7 @@ import useIsMobile from "@/app/hooks/useIsMobile";
 import SectionContainer from "@/app/components/common/SectionContainer/SectionContainer";
 import Button from "@/app/components/buttons/Button/Button";
 // styles
-import styles from './LoginClient.module.scss'
+import styles from '../Auth.module.scss'
 
 const LoginClient = () => {
 	const isMobile = useIsMobile(992)
@@ -39,11 +39,11 @@ const LoginClient = () => {
 										Вход
 									</legend>
 									<p>Нет аккаунта? <Link href="/register">Зарегистрироваться</Link></p>
-									<label htmlFor="text">
+									<label className={styles.inputLabel} htmlFor="text">
 										<span>Email или имя пользователя</span>
 										<input type="text" id="text"/>
 									</label>
-									<label htmlFor="pass">
+									<label className={styles.inputLabel} htmlFor="pass">
 										<span>Пароль</span>
 										<input type="password" id="pass"/>
 									</label>
