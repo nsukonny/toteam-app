@@ -5,7 +5,10 @@ import LoginClient from "@/app/components/pages/auth/LoginClient/LoginClient";
 
 export const metadata: Metadata = {
 	title: "ToTeam | Вход",
-	description: "Авторизуйтесь через социальные сети"
+	description: "Авторизуйтесь через социальные сети",
+	robots: {
+		index: false
+	}
 };
 
 export default function LoginPage() {

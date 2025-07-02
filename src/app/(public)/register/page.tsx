@@ -5,7 +5,10 @@ import RegisterClient from "@/app/components/pages/auth/RegisterClient/RegisterC
 
 export const metadata: Metadata = {
 	title: "ToTeam | Регистрация",
-	description: "Регистрация"
+	description: "Регистрация",
+	robots: {
+		index: false
+	}
 };
 
 export default function RegisterPage() {
