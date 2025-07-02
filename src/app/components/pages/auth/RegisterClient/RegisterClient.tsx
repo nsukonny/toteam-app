@@ -14,8 +14,11 @@ import { register } from '@/app/api/auth';
 // components
 import SectionContainer from "@/app/components/common/SectionContainer/SectionContainer";
 import Button from "@/app/components/buttons/Button/Button";
+import Message from '@/app/components/common/Message/Message';
 // styles
 import styles from '../Auth.module.scss'
+import { registerSchema, RegisterFormValues } from '../register.validation';
+import { ZodIssue } from 'zod';
 
 const RegisterClient = () => {
 	const isMobile = useIsMobile(992)
@@ -26,11 +29,23 @@ const RegisterClient = () => {
 	const [passwordConfirm, setPasswordConfirm] = useState('');
 	const [agree, setAgree] = useState(false);
 	const [loading, setLoading] = useState(false);
+	const [formErrors, setFormErrors] = useState<Partial<Record<keyof RegisterFormValues, string>>>({});
 	const router = useRouter();
 	const toast = useToast();
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		setFormErrors({});
+		const result = registerSchema.safeParse({ full_name: fullName, email, username, password, password_confirm: passwordConfirm, agree });
+		if (!result.success) {
+			const errors: Partial<Record<keyof RegisterFormValues, string>> = {};
+			result.error.errors.forEach((err: ZodIssue) => {
+				const field = err.path[0] as keyof RegisterFormValues;
+				errors[field] = err.message;
+			});
+			setFormErrors(errors);
+			return;
+		}
 		setLoading(true);
 		try {
 			const res = await register({ full_name: fullName, email, username, password, password_confirm: passwordConfirm, agree });
@@ -74,28 +89,34 @@ const RegisterClient = () => {
 									<p>Есть аккаунт? <Link href="/login">Войти</Link></p>
 									<label className={styles.inputLabel} htmlFor="text">
 										<span>Имя и фамилия</span>
-										<input type="text" id="text" value={fullName} onChange={e => setFullName(e.target.value)} required />
+										<input type="text" id="text" value={fullName} onChange={e => setFullName(e.target.value)} />
+										{formErrors.full_name && <Message message={formErrors.full_name} type="error" />}
 									</label>
 									<label className={styles.inputLabel} htmlFor="email">
 										<span>Email</span>
-										<input type="email" id="email" value={email} onChange={e => setEmail(e.target.value)} required />
+										<input type="email" id="email" value={email} onChange={e => setEmail(e.target.value)} />
+										{formErrors.email && <Message message={formErrors.email} type="error" />}
 									</label>
 									<label className={styles.inputLabel} htmlFor="username">
 										<span>Имя пользователя</span>
-										<input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} required />
+										<input type="text" id="username" value={username} onChange={e => setUsername(e.target.value)} />
+										{formErrors.username && <Message message={formErrors.username} type="error" />}
 									</label>
 									<label className={styles.inputLabel} htmlFor="pass">
 										<span>Пароль</span>
-										<input type="password" id="pass" value={password} onChange={e => setPassword(e.target.value)} required />
+										<input type="password" id="pass" value={password} onChange={e => setPassword(e.target.value)} />
+										{formErrors.password && <Message message={formErrors.password} type="error" />}
 									</label>
 									<label className={styles.inputLabel} htmlFor="confirm">
 										<span>Подтверждение пароля</span>
-										<input type="password" id="confirm" value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value)} required />
+										<input type="password" id="confirm" value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value)} />
+										{formErrors.password_confirm && <Message message={formErrors.password_confirm} type="error" />}
 									</label>
 									<label className={styles.checkboxLabel} htmlFor="check">
-										<input type="checkbox" id="check" checked={agree} onChange={e => setAgree(e.target.checked)} required />
+										<input type="checkbox" id="check" checked={agree} onChange={e => setAgree(e.target.checked)} />
 										<span className={styles.box}></span>
 										<span>Я подтверждаю, что ознакомился с Условиями использования и Политикой конфиденциальности</span>
+										{formErrors.agree && <Message message={formErrors.agree} type="error" />}
 									</label>
 								</fieldset>
 								<Button type="submit" text="Зарегистрироваться" color="black" size="medium" fullWidth disabled={loading}/>

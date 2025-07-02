@@ -1,0 +1,44 @@
+@use '../../../../scss/vars/vars' as v;
+@use '../../../../scss/mixins/typography/paragraph' as p;
+
+.message {
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 6px 16px;
+  gap: 4px;
+  border-radius: v.$br8;
+  font-family: v.$ff-os;
+  font-size: 12px;
+  font-weight: v.$fw-regular;
+  line-height: 150%;
+  z-index: 1;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  &.success {
+    background-color: v.$successBg;
+    color: v.$statusSuccess;
+  }
+
+  &.error {
+    background-color: v.$errorBg;
+    color: v.$statusError;
+  }
+
+  &.warn {
+    background-color: v.$warnBg;
+    color: v.$statusWarning;
+  }
+
+  &.info {
+    background-color: v.$infoBg;
+    color: v.$statusInfo;
+  }
+}

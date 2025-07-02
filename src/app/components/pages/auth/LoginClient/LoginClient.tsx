@@ -3,6 +3,8 @@
 // next
 import Link from 'next/link';
 import Image from 'next/image';
+// libs
+import { ZodIssue } from 'zod';
 // hooks
 import useIsMobile from "@/app/hooks/useIsMobile";
 import { useState } from 'react';
@@ -12,6 +14,9 @@ import { useToast } from '@/app/hooks/useToast';
 // components
 import SectionContainer from "@/app/components/common/SectionContainer/SectionContainer";
 import Button from "@/app/components/buttons/Button/Button";
+import Message from '@/app/components/common/Message/Message';
+// validation
+import { loginSchema, LoginFormValues } from '../login.validation';
 // styles
 import styles from '../Auth.module.scss'
 
@@ -22,9 +27,21 @@ const LoginClient = () => {
 	const router = useRouter();
 	const toast = useToast();
 	const [loading, setLoading] = useState(false);
+	const [formErrors, setFormErrors] = useState<Partial<Record<keyof LoginFormValues, string>>>({});
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		setFormErrors({});
+		const result = loginSchema.safeParse({ login: loginValue, password });
+		if (!result.success) {
+			const errors: Partial<Record<keyof LoginFormValues, string>> = {};
+			result.error.errors.forEach((err: ZodIssue) => {
+				const field = err.path[0] as keyof LoginFormValues;
+				errors[field] = err.message;
+			});
+			setFormErrors(errors);
+			return;
+		}
 		setLoading(true);
 		try {
 			const res = await login({ login: loginValue, password });
@@ -68,11 +85,13 @@ const LoginClient = () => {
 									<p>Нет аккаунта? <Link href="/register">Зарегистрироваться</Link></p>
 									<label className={styles.inputLabel} htmlFor="text">
 										<span>Email или имя пользователя</span>
-										<input type="text" id="text" value={loginValue} onChange={e => setLoginValue(e.target.value)} required />
+										<input type="text" id="text" value={loginValue} onChange={e => setLoginValue(e.target.value)} />
+										{formErrors.login && <Message message={formErrors.login} type="error" />}
 									</label>
 									<label className={styles.inputLabel} htmlFor="pass">
 										<span>Пароль</span>
-										<input type="password" id="pass" value={password} onChange={e => setPassword(e.target.value)} required />
+										<input type="password" id="pass" value={password} onChange={e => setPassword(e.target.value)} />
+										{formErrors.password && <Message message={formErrors.password} type="error" />}
 									</label>
 								</fieldset>
 								<Button type="submit" text="Войти" color="black" size="medium" fullWidth disabled={loading}/>
