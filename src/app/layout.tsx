@@ -14,9 +14,7 @@ export default function RootLayout({children,}: Readonly<{
 	return (
 		<html lang="ru">
 		<body>
-		<div className="wrapper">
-			{children}
-		</div>
+		{children}
 		</body>
 		</html>
 	);

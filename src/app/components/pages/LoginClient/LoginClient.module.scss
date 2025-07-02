@@ -8,7 +8,7 @@
   padding: 20px 0 38px;
 
   @media(min-width: v.$xl) {
-    padding: 33px 0 129px;
+    padding: 33px 0 60px;
   }
 
   &Wrapper {
@@ -57,6 +57,11 @@
       font-size: 40px;
       font-weight: v.$fw-bold;
       line-height: 115%;
+    }
+
+    p {
+      color: v.$black;
+      @include p.paragraph('base', 'regular');
     }
 
     a {
@@ -118,6 +123,7 @@
         }
 
         p {
+          color: v.$black;
           margin-bottom: 12px;
           @include p.paragraph('base','regular');
 
@@ -186,12 +192,9 @@
         }
 
         span {
+          color: #8E94A7;
           transition: color ease v.$tr;
           @include b.button('medium');
-
-          & {
-            color: #8E94A7;
-          }
         }
 
         &Ico {

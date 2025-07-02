@@ -1,0 +1,46 @@
+@use '../../../../scss/vars/vars' as v;
+@use '../../../../scss/mixins/typography/paragraph' as p;
+
+.footer {
+  padding: 20px 0;
+  margin-top: auto;
+
+  &Wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  &Bottom {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  nav {
+    display: flex;
+    ul {
+      display: flex;
+      align-items:  center;
+      gap: 20px;
+
+      li {
+        display: flex;
+        align-items: center;
+
+        a {
+          color: v.$black;
+          @include p.paragraph('small', 'regular')
+        }
+      }
+    }
+  }
+
+  .copyright {
+    display: flex;
+    align-items: center;
+    color: v.$neutral5;
+    @include p.paragraph('small', 'regular')
+  }
+}
